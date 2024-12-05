@@ -5,16 +5,14 @@
 // controls for the Gaia data explorer.
 // ============================================================================
 
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
 import EurasiaMap from './components/EurasiaMap';
 import './style/sidebar.css';
 import {GeorefEntry, PointCluster, PointData, RawFluxData} from "./types/types";
 import fluxData from './data/flux_transformed.json';
 import {SIDEBAR} from "./utils/constants";
 import {formatTimePoint} from "./utils/utils";
-import {processGeorefData} from "./utils/migration";
 import georefData from './data/georef-arg-min.json';
-import Papa from "papaparse";
 // @ts-ignore
 const rawFluxData: RawFluxData = fluxData;
 // @ts-ignore
@@ -43,7 +41,6 @@ const App = () => {
     const [selectedPoint, setSelectedPoint] = useState<PointData | null>(null);
     const [expandedCluster, setExpandedCluster] = useState<PointCluster | null>(null);
     const [selectedCell, setSelectedCell] = useState<number | null>(null);
-    const [georefData, setGeorefData] = useState<GeorefEntry[]>([]);
 
     // Visualization controls
     const [showPoints, setShowPoints] = useState(false);
