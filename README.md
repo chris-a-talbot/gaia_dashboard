@@ -1,6 +1,6 @@
 # Gaia Dashboard
 
-An interactive visualization dashboard for exploring the geographic history of human genetic ancestry, based on *gaia* by Grundler et al. (2024). This project includes data processing pipelines, a Rust backend API, and a React frontend visualization interface which can be found at chris-a-talbot.com/gaia_visualizer.
+An interactive visualization dashboard for exploring the geographic history of human genetic ancestry, based on *gaia* by Grundler et al. (2024). This project includes data processing pipelines, a Rust backend API, and a React frontend visualization interface which can be found at [chris-a-talbot.com/gaia_visualizer].
 
 ## Project Structure
 
