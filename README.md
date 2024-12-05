@@ -65,14 +65,6 @@ cargo build
 cargo run
 ```
 
-### Data Processing
-1. Install R dependencies:
-```R
-install.packages(c("tidyverse", "sf", "terra"))
-```
-2. Place raw data files in data_processing/input/
-3. Run processing scripts in numbered order
-
 ## Development
 
 1. Start the backend server:
@@ -106,9 +98,10 @@ cargo build --release
 ## Data Sources
 
 - Human Genome Diversity Project data
+- Grundler et al. (2024) *gaia* analysis
 - Geographic reference data (landgrid)
-- Population migration patterns
-
+- Mapbox Studio custom maps
+  
 ## License
 
 Research and code released under CC-BY 4.0 International license.
