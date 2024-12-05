@@ -1,0 +1,226 @@
+/* ============================================================================
+ * sidebar.css
+ * Styles for the application's sidebar components, including layout,
+ * animations, and interactive elements.
+ * ============================================================================ */
+
+/* Core Sidebar Structure */
+.sidebar {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    background: #1a1a1a;
+    color: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+/* Sidebar Positioning */
+.sidebar.right {
+    right: 0;
+}
+
+.sidebar.left {
+    left: 0;
+}
+
+/* Sidebar State Transitions */
+.sidebar.closed {
+    transform: translateX(100%);
+}
+
+.sidebar.left.closed {
+    transform: translateX(-100%);
+}
+
+/* Toggle Button Styling */
+.toggle-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 80px;
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.sidebar.right .toggle-button {
+    left: -40px;
+    border-radius: 4px 0 0 4px;
+}
+
+.sidebar.left .toggle-button {
+    right: -40px;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Resize Handle Styling */
+.resize-handle {
+    position: absolute;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    cursor: ew-resize;
+    background: transparent;
+    transition: background-color 0.2s;
+}
+
+.resize-handle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.resize-handle.left {
+    left: 0;
+}
+
+.resize-handle.right {
+    right: 0;
+}
+
+/* Content Container */
+.sidebar-content {
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Panel Styling */
+.info-panel {
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.info-panel h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+}
+
+.info-panel p {
+    margin: 5px 0;
+    color: #ccc;
+}
+
+/* Interaction Prevention */
+.sidebar {
+    user-select: none;
+}
+
+/* Control Layout */
+.control-row {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Toggle Switch Styling */
+.toggle-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+    padding: 5px 0;
+}
+
+.toggle-label input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    transition: .4s;
+    margin-left: 10px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+input:checked + .toggle-slider {
+    background-color: #2196F3;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+/* Time Slider Styling */
+.slider-label {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.time-slider {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #ddd;
+    outline: none;
+    border-radius: 2px;
+}
+
+.time-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #4a9eff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.time-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #4a9eff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Control Group Layout */
+.control-group {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.control-group h4 {
+    margin: 0;
+    color: #fff;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.control-group .toggle-label {
+    margin: 0.25rem 0;
+}
