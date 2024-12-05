@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/gaia_visualizer/static/css/main.952951c4.css",
+    "main.js": "/gaia_visualizer/static/js/main.016a74f1.js",
+    "static/js/879.ffa93a33.chunk.js": "/gaia_visualizer/static/js/879.ffa93a33.chunk.js",
+    "static/js/453.75b91a63.chunk.js": "/gaia_visualizer/static/js/453.75b91a63.chunk.js",
+    "static/media/landgrid_wgs84_metadata.geojson": "/gaia_visualizer/static/media/landgrid_wgs84_metadata.c4095f01a1ad116c803e.geojson",
+    "index.html": "/gaia_visualizer/index.html",
+    "main.952951c4.css.map": "/gaia_visualizer/static/css/main.952951c4.css.map",
+    "main.016a74f1.js.map": "/gaia_visualizer/static/js/main.016a74f1.js.map",
+    "879.ffa93a33.chunk.js.map": "/gaia_visualizer/static/js/879.ffa93a33.chunk.js.map",
+    "453.75b91a63.chunk.js.map": "/gaia_visualizer/static/js/453.75b91a63.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.952951c4.css",
+    "static/js/main.016a74f1.js"
+  ]
+}
