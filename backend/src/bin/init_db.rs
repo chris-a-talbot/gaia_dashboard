@@ -59,7 +59,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         CREATE TABLE hexagons (
             state_id INTEGER PRIMARY KEY,
             geom GEOMETRY(MULTIPOLYGON, 4326) NOT NULL,
-            continent_id TEXT NOT NULL
+            continent_id TEXT NOT NULL,
+            center_lon DOUBLE PRECISION,
+            center_lat DOUBLE PRECISION;
         );
 
         CREATE TABLE flux (
