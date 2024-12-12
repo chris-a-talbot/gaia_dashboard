@@ -19,7 +19,7 @@ import {
     FluxArcData,
     AggregatePointHoverInfo,
     PointCluster,
-    ExpandedClusterData, AggregatePointData, GeorefEntry, ExpandedPointData
+    ExpandedClusterData, AggregatePointData, GeorefEntry, ExpandedPointData, Individual
 } from '../types/types';
 import { Feature, Geometry } from "geojson";
 import FluxArrowLayer from "./FluxArrowLayer";
@@ -31,12 +31,11 @@ import {
     getContinentColor, getHexCenterpoint,
     groupPointsByLocation, normalizeValues
 } from "../utils/utils";
+import { api } from '../services/api';
 
 // ============================================================================
 // Data Imports and Configuration
 // ============================================================================
-import hexagonDataPath from '../data/landgrid_wgs84_metadata.geojson';
-import pointData from '../data/coords_wgs84.json';
 import fluxData from '../data/flux_transformed.json';
 import MigrationHistoryLayer from "./MigrationHistoryLayer";
 import {getMigrationPaths} from "../utils/migration";
@@ -99,6 +98,9 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
     const [aggregatePointHoverInfo, setAggregatePointHoverInfo] = useState<AggregatePointHoverInfo | null>(null);
     const [expandedClusterData, setExpandedClusterData] = useState<ExpandedClusterData | null>(null);
 
+    const [pointData, setPointData] = useState<PointData[]>([]);
+    const [pointDataError, setPointDataError] = useState<string | null>(null);
+
     console.log('Creating layers with:', {
         hexDataExists: !!hexagonData?.features,
         selectedCell,
@@ -114,8 +116,7 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
     useEffect(() => {
         const loadHexagonData = async () => {
             try {
-                const response = await fetch(hexagonDataPath);
-                const data = await response.json();
+                const data = await api.getAllHexagons();
                 setHexagonData(data);
             } catch (error) {
                 console.error('Error loading hexagon data:', error);
@@ -126,6 +127,71 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
 
         loadHexagonData();
     }, []);
+
+    useEffect(() => {
+        const loadPointData = async () => {
+            try {
+                const individuals = await api.getAllIndividuals();
+                const points: PointData[] = individuals.map(individual => {
+                    // First create an Individual object matching your interface
+                    const fullIndividual: Individual = {
+                        individual_id: individual.individual_id,
+                        flags: individual.flags,
+                        location: {
+                            type: 'Point',
+                            coordinates: individual.location.coordinates
+                        },
+                        parents: individual.parents,
+                        nodes: individual.nodes,
+                        array_non_reference_discordance: individual.array_non_reference_discordance,
+                        capmq: individual.capmq,
+                        coverage: individual.coverage,
+                        freemix: individual.freemix,
+                        insert_size_average: individual.insert_size_average,
+                        library: individual.library,
+                        library_type: individual.library_type,
+                        region: individual.region,
+                        sample: individual.sample,
+                        sample_accession: individual.sample_accession,
+                        sex: individual.sex,
+                        source: individual.source
+                    };
+
+                    // Then construct the PointData object
+                    return {
+                        individual_id: individual.individual_id,
+                        longitude: individual.location.coordinates[0],
+                        latitude: individual.location.coordinates[1],
+                        metadata: {
+                            individual_id: individual.individual_id,
+                            flags: individual.flags,
+                            parents: individual.parents,
+                            nodes: individual.nodes,
+                            array_non_reference_discordance: individual.array_non_reference_discordance,
+                            capmq: individual.capmq,
+                            coverage: individual.coverage,
+                            freemix: individual.freemix,
+                            insert_size_average: individual.insert_size_average,
+                            library: individual.library,
+                            library_type: individual.library_type,
+                            region: individual.region,
+                            sample: individual.sample,
+                            sample_accession: individual.sample_accession,
+                            sex: individual.sex,
+                            source: individual.source
+                        }
+                    };
+                });
+                setPointData(points);
+            } catch (error) {
+                console.error('Error loading point data:', error);
+                setPointDataError(error instanceof Error ? error.message : 'Failed to load point data');
+            }
+        };
+
+        loadPointData();
+    }, []);
+
 
     // Handle cluster expansion state changes
     useEffect(() => {
@@ -442,6 +508,10 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
         onPointClick, expandedCluster, expandedClusterData, onClusterClick, showRegionColors, showDominantFluxOnly,
         onCellSelect, selectedCell, georefData]);
 
+    if (pointDataError) {
+        console.warn('Point data loading error:', pointDataError);
+    }
+
     // Tooltip rendering
     const renderTooltip = () => {
         const tooltipStyle = {
@@ -474,7 +544,7 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
                     {pointCount > 1 ? (
                         <div>Points in stack: {pointCount}</div>
                     ) : (
-                        <div>Node ID: {pointHoverInfo.object.node_id}</div>
+                        <div>Node ID: {pointHoverInfo.object.individual_id}</div>
                     )}
                 </div>
             );

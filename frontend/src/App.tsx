@@ -53,6 +53,8 @@ const App = () => {
     const [showCountryBorders, setShowCountryBorders] = useState(false);
     const [showDominantFluxOnly, setShowDominantFluxOnly] = useState(false);
 
+
+
     // ========================================================================
     // Event Handlers
     // ========================================================================
@@ -73,7 +75,7 @@ const App = () => {
 
     // Handles individual point selection and sidebar display
     const handlePointClick = (point: PointData) => {
-        if (selectedPoint && selectedPoint.node_id === point.node_id) {
+        if (selectedPoint && selectedPoint.individual_id === point.individual_id) {
             setSelectedPoint(null);
             setShowLeftSidebar(false);
         } else {
@@ -167,11 +169,11 @@ const App = () => {
                     </button>
 
                     <div className="sidebar-content">
-                        <h2>Point Details {selectedPoint && `(${selectedPoint.node_id})`}</h2>
+                        <h2>Point Details {selectedPoint && `(${selectedPoint.individual_id})`}</h2>
 
                         <div className="info-panel">
                             <h3>Location</h3>
-                            <p>Node ID: {selectedPoint?.node_id || 'N/A'}</p>
+                            <p>Node ID: {selectedPoint?.individual_id || 'N/A'}</p>
                             <p>Latitude: {selectedPoint?.latitude?.toFixed(4)}°N</p>
                             <p>Longitude: {selectedPoint?.longitude?.toFixed(4)}°E</p>
                         </div>

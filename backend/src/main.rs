@@ -74,6 +74,13 @@ struct GeoArg {
     time: f64,
 }
 
+#[derive(Serialize, Deserialize)]
+struct AverageFlux {
+    source_state_id: i32,
+    target_state_id: i32,
+    average_migration_rate: f64,
+}
+
 // Handler functions for each endpoint
 async fn get_all_individuals(
     State(state): State<Arc<AppState>>,
@@ -255,6 +262,29 @@ async fn get_origin_paths(
     Json(grouped_paths)
 }
 
+async fn get_average_flux(
+    State(state): State<Arc<AppState>>,
+) -> Json<Vec<AverageFlux>> {
+    let average_flux = sqlx::query_as!(
+        AverageFlux,
+        r#"
+        SELECT
+            source_state_id,
+            target_state_id,
+            AVG(migration_rate) as "average_migration_rate!: f64"
+        FROM flux
+        GROUP BY source_state_id, target_state_id
+        HAVING AVG(migration_rate) > 0
+        ORDER BY source_state_id, target_state_id
+        "#
+    )
+        .fetch_all(&state.pool)
+        .await
+        .unwrap_or_default();
+
+    Json(average_flux)
+}
+
 #[tokio::main]
 async fn main() {
     // Initialize logging
@@ -282,12 +312,13 @@ async fn main() {
         .route("/api/hexagons", get(get_all_hexagons))
         .route("/api/populations", get(get_all_populations))
         .route("/api/flux", get(get_all_flux))
+        .route("/api/average-flux", get(get_average_flux))  // New route
         .route("/api/geo-arg", get(get_all_geo_arg))
-        .route("/api/origin-paths/:state_id", get(get_origin_paths))  // New route
+        .route("/api/origin-paths/:state_id", get(get_origin_paths))
         .route("/health", get(health_check))
         .layer(CorsLayer::permissive())
         .with_state(state);
-
+    
     println!("Server starting on http://localhost:3001");
 
     // Run the server
