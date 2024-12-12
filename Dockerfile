@@ -8,6 +8,10 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /usr/src/app
 COPY . .
 
+# Debug: List contents to see what was copied
+RUN ls -la
+RUN ls -la backend/
+
 # Build the application from the backend directory
 RUN cd backend && cargo build --release --bin gaia_backend
 
