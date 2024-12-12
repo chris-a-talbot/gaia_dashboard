@@ -8,8 +8,12 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /usr/src/app
 COPY . .
 
+# Debug: List contents
 RUN ls -la
 RUN ls -la backend/
+
+# Rename cargo.toml to Cargo.toml
+RUN mv backend/cargo.toml backend/Cargo.toml
 
 # Build the application from the backend directory
 RUN cd backend && cargo build --release --bin gaia_backend
