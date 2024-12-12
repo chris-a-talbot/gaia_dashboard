@@ -318,7 +318,7 @@ async fn main() {
         .route("/health", get(health_check))
         .layer(CorsLayer::permissive())
         .with_state(state);
-    
+
     println!("Server starting on http://localhost:3001");
 
     // Run the server
