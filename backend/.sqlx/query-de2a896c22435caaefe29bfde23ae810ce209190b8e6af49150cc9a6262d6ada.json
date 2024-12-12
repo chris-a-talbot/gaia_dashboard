@@ -1,0 +1,116 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT\n            id,\n            flags,\n            ST_AsGeoJSON(location)::jsonb as \"location!: JsonValue\",\n            parents,\n            nodes,\n            array_non_reference_discordance,\n            capmq,\n            coverage,\n            freemix,\n            insert_size_average,\n            library,\n            library_type,\n            region,\n            sample,\n            sample_accession,\n            sex,\n            source\n        FROM individuals\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "flags",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "location!: JsonValue",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 3,
+        "name": "parents",
+        "type_info": "Int4Array"
+      },
+      {
+        "ordinal": 4,
+        "name": "nodes",
+        "type_info": "Int4Array"
+      },
+      {
+        "ordinal": 5,
+        "name": "array_non_reference_discordance",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 6,
+        "name": "capmq",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 7,
+        "name": "coverage",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 8,
+        "name": "freemix",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 9,
+        "name": "insert_size_average",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 10,
+        "name": "library",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "library_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 12,
+        "name": "region",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 13,
+        "name": "sample",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 14,
+        "name": "sample_accession",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 15,
+        "name": "sex",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 16,
+        "name": "source",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      null,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "de2a896c22435caaefe29bfde23ae810ce209190b8e6af49150cc9a6262d6ada"
+}

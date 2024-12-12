@@ -1,0 +1,32 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT\n            state_id,\n            ST_AsGeoJSON(geom)::jsonb as \"geom!: JsonValue\",\n            continent_id\n        FROM hexagons\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "state_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "geom!: JsonValue",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 2,
+        "name": "continent_id",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      null,
+      false
+    ]
+  },
+  "hash": "c3d886d0a2d0f58e2b2666e790f329d77745ab87c7d0f6fd660c7fe0b8fc1bb3"
+}

@@ -1,0 +1,32 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT edge_id, state_id, time\n        FROM geo_arg\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "edge_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "state_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "time",
+        "type_info": "Float8"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "f2d323f9b7d14406924cd4b315a234a7948ea7bf1316239bab3b5205daf2ecce"
+}

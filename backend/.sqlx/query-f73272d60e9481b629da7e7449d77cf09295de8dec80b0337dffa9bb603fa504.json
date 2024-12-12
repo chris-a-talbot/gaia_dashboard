@@ -1,0 +1,44 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT id, source_state_id, target_state_id, time, migration_rate\n        FROM flux\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "source_state_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "target_state_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 3,
+        "name": "time",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 4,
+        "name": "migration_rate",
+        "type_info": "Float8"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "f73272d60e9481b629da7e7449d77cf09295de8dec80b0337dffa9bb603fa504"
+}
