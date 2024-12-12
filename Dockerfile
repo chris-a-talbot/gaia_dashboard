@@ -1,4 +1,4 @@
-FROM rust:1.74 as builder
+FROM rust:1.75 as builder
 
 # Install PostGIS dependencies
 RUN apt-get update && apt-get install -y \
