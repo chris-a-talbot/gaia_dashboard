@@ -2,3 +2,8 @@
 .Rproj
 .Rhistory
 .RData
+/data
+./data/**
+.env
+.idea/
+*.json

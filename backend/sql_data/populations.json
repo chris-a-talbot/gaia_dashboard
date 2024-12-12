@@ -1,0 +1,797 @@
+[
+  {
+    "id": 0,
+    "name": "Adygei",
+    "region": "EUROPE"
+  },
+  {
+    "id": 1,
+    "name": "Balochi",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 2,
+    "name": "BantuKenya",
+    "region": "AFRICA"
+  },
+  {
+    "id": 3,
+    "name": "BantuSouthAfrica",
+    "region": "AFRICA"
+  },
+  {
+    "id": 4,
+    "name": "Basque",
+    "region": "EUROPE"
+  },
+  {
+    "id": 5,
+    "name": "Bedouin",
+    "region": "MIDDLE_EAST"
+  },
+  {
+    "id": 6,
+    "name": "BergamoItalian",
+    "region": "EUROPE"
+  },
+  {
+    "id": 7,
+    "name": "Biaka",
+    "region": "AFRICA"
+  },
+  {
+    "id": 8,
+    "name": "Brahui",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 9,
+    "name": "Burusho",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 10,
+    "name": "Cambodian",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 11,
+    "name": "Dai",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 12,
+    "name": "Daur",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 13,
+    "name": "Druze",
+    "region": "MIDDLE_EAST"
+  },
+  {
+    "id": 14,
+    "name": "French",
+    "region": "EUROPE"
+  },
+  {
+    "id": 15,
+    "name": "Han",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 16,
+    "name": "Hazara",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 17,
+    "name": "Hezhen",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 18,
+    "name": "Japanese",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 19,
+    "name": "Kalash",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 20,
+    "name": "Lahu",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 21,
+    "name": "Makrani",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 22,
+    "name": "Mandenka",
+    "region": "AFRICA"
+  },
+  {
+    "id": 23,
+    "name": "Mbuti",
+    "region": "AFRICA"
+  },
+  {
+    "id": 24,
+    "name": "Miao",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 25,
+    "name": "Mongolian",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 26,
+    "name": "Mozabite",
+    "region": "MIDDLE_EAST"
+  },
+  {
+    "id": 27,
+    "name": "Naxi",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 28,
+    "name": "NorthernHan",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 29,
+    "name": "Orcadian",
+    "region": "EUROPE"
+  },
+  {
+    "id": 30,
+    "name": "Oroqen",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 31,
+    "name": "Palestinian",
+    "region": "MIDDLE_EAST"
+  },
+  {
+    "id": 32,
+    "name": "Pathan",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 33,
+    "name": "Russian",
+    "region": "EUROPE"
+  },
+  {
+    "id": 34,
+    "name": "San",
+    "region": "AFRICA"
+  },
+  {
+    "id": 35,
+    "name": "Sardinian",
+    "region": "EUROPE"
+  },
+  {
+    "id": 36,
+    "name": "She",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 37,
+    "name": "Sindhi",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 38,
+    "name": "Tu",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 39,
+    "name": "Tujia",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 40,
+    "name": "Tuscan",
+    "region": "EUROPE"
+  },
+  {
+    "id": 41,
+    "name": "Uygur",
+    "region": "CENTRAL_SOUTH_ASIA"
+  },
+  {
+    "id": 42,
+    "name": "Xibo",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 43,
+    "name": "Yakut",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 44,
+    "name": "Yi",
+    "region": "EAST_ASIA"
+  },
+  {
+    "id": 45,
+    "name": "Yoruba",
+    "region": "AFRICA"
+  },
+  {
+    "id": 46,
+    "name": "Abkhasian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 47,
+    "name": "Adygei",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 48,
+    "name": "Albanian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 49,
+    "name": "Aleut",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 50,
+    "name": "Altaian",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 51,
+    "name": "Ami",
+    "region": "EastAsia"
+  },
+  {
+    "id": 52,
+    "name": "Armenian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 53,
+    "name": "Atayal",
+    "region": "EastAsia"
+  },
+  {
+    "id": 54,
+    "name": "Balochi",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 55,
+    "name": "BantuHerero",
+    "region": "Africa"
+  },
+  {
+    "id": 56,
+    "name": "BantuKenya",
+    "region": "Africa"
+  },
+  {
+    "id": 57,
+    "name": "BantuTswana",
+    "region": "Africa"
+  },
+  {
+    "id": 58,
+    "name": "Basque",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 59,
+    "name": "BedouinB",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 60,
+    "name": "Bengali",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 61,
+    "name": "Bergamo",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 62,
+    "name": "Biaka",
+    "region": "Africa"
+  },
+  {
+    "id": 63,
+    "name": "Brahmin",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 64,
+    "name": "Brahui",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 65,
+    "name": "Bulgarian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 66,
+    "name": "Burmese",
+    "region": "EastAsia"
+  },
+  {
+    "id": 67,
+    "name": "Burusho",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 68,
+    "name": "Cambodian",
+    "region": "EastAsia"
+  },
+  {
+    "id": 69,
+    "name": "Chechen",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 70,
+    "name": "Chukchi",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 71,
+    "name": "Crete",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 72,
+    "name": "Czech",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 73,
+    "name": "Dai",
+    "region": "EastAsia"
+  },
+  {
+    "id": 74,
+    "name": "Daur",
+    "region": "EastAsia"
+  },
+  {
+    "id": 75,
+    "name": "Dinka",
+    "region": "Africa"
+  },
+  {
+    "id": 76,
+    "name": "Druze",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 77,
+    "name": "English",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 78,
+    "name": "Esan",
+    "region": "Africa"
+  },
+  {
+    "id": 79,
+    "name": "Eskimo_Chaplin",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 80,
+    "name": "Eskimo_Naukan",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 81,
+    "name": "Eskimo_Sireniki",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 82,
+    "name": "Estonian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 83,
+    "name": "Even",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 84,
+    "name": "Finnish",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 85,
+    "name": "French",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 86,
+    "name": "Gambian",
+    "region": "Africa"
+  },
+  {
+    "id": 87,
+    "name": "Georgian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 88,
+    "name": "Greek",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 89,
+    "name": "Han",
+    "region": "EastAsia"
+  },
+  {
+    "id": 90,
+    "name": "Hazara",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 91,
+    "name": "Hezhen",
+    "region": "EastAsia"
+  },
+  {
+    "id": 92,
+    "name": "Hungarian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 93,
+    "name": "Icelandic",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 94,
+    "name": "Iranian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 95,
+    "name": "Iraqi_Jew",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 96,
+    "name": "Irula",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 97,
+    "name": "Itelman",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 98,
+    "name": "Japanese",
+    "region": "EastAsia"
+  },
+  {
+    "id": 99,
+    "name": "Jordanian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 100,
+    "name": "Ju_hoan_North",
+    "region": "Africa"
+  },
+  {
+    "id": 101,
+    "name": "Kalash",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 102,
+    "name": "Kapu",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 103,
+    "name": "Khomani_San",
+    "region": "Africa"
+  },
+  {
+    "id": 104,
+    "name": "Khonda_Dora",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 105,
+    "name": "Kinh",
+    "region": "EastAsia"
+  },
+  {
+    "id": 106,
+    "name": "Korean",
+    "region": "EastAsia"
+  },
+  {
+    "id": 107,
+    "name": "Kusunda",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 108,
+    "name": "Kyrgyz",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 109,
+    "name": "Lahu",
+    "region": "EastAsia"
+  },
+  {
+    "id": 110,
+    "name": "Lezgin",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 111,
+    "name": "Luhya",
+    "region": "Africa"
+  },
+  {
+    "id": 112,
+    "name": "Luo",
+    "region": "Africa"
+  },
+  {
+    "id": 113,
+    "name": "Madiga",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 114,
+    "name": "Makrani",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 115,
+    "name": "Mala",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 116,
+    "name": "Mandenka",
+    "region": "Africa"
+  },
+  {
+    "id": 117,
+    "name": "Mansi",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 118,
+    "name": "Masai",
+    "region": "Africa"
+  },
+  {
+    "id": 119,
+    "name": "Mbuti",
+    "region": "Africa"
+  },
+  {
+    "id": 120,
+    "name": "Mende",
+    "region": "Africa"
+  },
+  {
+    "id": 121,
+    "name": "Miao",
+    "region": "EastAsia"
+  },
+  {
+    "id": 122,
+    "name": "Mongola",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 123,
+    "name": "Mozabite",
+    "region": "Africa"
+  },
+  {
+    "id": 124,
+    "name": "Naxi",
+    "region": "EastAsia"
+  },
+  {
+    "id": 125,
+    "name": "North_Ossetian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 126,
+    "name": "Norwegian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 127,
+    "name": "Orcadian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 128,
+    "name": "Oroqen",
+    "region": "EastAsia"
+  },
+  {
+    "id": 129,
+    "name": "Palestinian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 130,
+    "name": "Pathan",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 131,
+    "name": "Polish",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 132,
+    "name": "Punjabi",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 133,
+    "name": "Relli",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 134,
+    "name": "Russian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 135,
+    "name": "Saami",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 136,
+    "name": "Saharawi",
+    "region": "Africa"
+  },
+  {
+    "id": 137,
+    "name": "Samaritan",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 138,
+    "name": "Sardinian",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 139,
+    "name": "She",
+    "region": "EastAsia"
+  },
+  {
+    "id": 140,
+    "name": "Sindhi",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 141,
+    "name": "Somali",
+    "region": "Africa"
+  },
+  {
+    "id": 142,
+    "name": "Spanish",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 143,
+    "name": "Tajik",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 144,
+    "name": "Thai",
+    "region": "EastAsia"
+  },
+  {
+    "id": 145,
+    "name": "Tlingit",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 146,
+    "name": "Tu",
+    "region": "EastAsia"
+  },
+  {
+    "id": 147,
+    "name": "Tubalar",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 148,
+    "name": "Tujia",
+    "region": "EastAsia"
+  },
+  {
+    "id": 149,
+    "name": "Turkish",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 150,
+    "name": "Tuscan",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 151,
+    "name": "Ulchi",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 152,
+    "name": "Uygur",
+    "region": "EastAsia"
+  },
+  {
+    "id": 153,
+    "name": "Xibo",
+    "region": "EastAsia"
+  },
+  {
+    "id": 154,
+    "name": "Yadava",
+    "region": "SouthAsia"
+  },
+  {
+    "id": 155,
+    "name": "Yakut",
+    "region": "CentralAsiaSiberia"
+  },
+  {
+    "id": 156,
+    "name": "Yemenite_Jew",
+    "region": "WestEurasia"
+  },
+  {
+    "id": 157,
+    "name": "Yi",
+    "region": "EastAsia"
+  },
+  {
+    "id": 158,
+    "name": "Yoruba",
+    "region": "Africa"
+  }
+]
