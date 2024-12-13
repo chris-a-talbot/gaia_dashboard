@@ -1,8 +1,8 @@
 {
-  "name": "gaia_visualizer",
+  "name": "gaia_dashboard",
   "version": "0.1.0",
   "private": false,
-  "homepage": "https://chris-a-talbot.com/gaia_visualizer",
+  "homepage": "https://chris-a-talbot.github.io/gaia_dashboard",
   "dependencies": {
     "@deck.gl/core": "^9.0.35",
     "@deck.gl/geo-layers": "^9.0.35",
