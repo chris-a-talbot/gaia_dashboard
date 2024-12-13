@@ -50,6 +50,8 @@ struct Hexagon {
     state_id: i32,
     geom: JsonValue, // Will contain GeoJSON
     continent_id: String,
+    center_lon: f64,
+    center_lat: f64,
 }
 
 #[derive(Serialize, Deserialize)]

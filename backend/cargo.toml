@@ -15,6 +15,10 @@ path = "src/bin/init_db.rs"
 name = "migrate_data_local"
 path = "src/bin/migrate_data_local.rs"
 
+[[bin]]
+name = "fix_loc"
+path = "src/bin/fix_loc.rs"
+
 [dependencies]
 tokio = { version = "1.36", features = ["full"] }
 axum = "0.7"
