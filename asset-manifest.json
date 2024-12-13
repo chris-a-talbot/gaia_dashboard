@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/gaia_visualizer/static/css/main.952951c4.css",
-    "main.js": "/gaia_visualizer/static/js/main.e331b753.js",
-    "static/js/879.ffa93a33.chunk.js": "/gaia_visualizer/static/js/879.ffa93a33.chunk.js",
-    "static/js/453.75b91a63.chunk.js": "/gaia_visualizer/static/js/453.75b91a63.chunk.js",
-    "index.html": "/gaia_visualizer/index.html",
-    "main.952951c4.css.map": "/gaia_visualizer/static/css/main.952951c4.css.map",
-    "main.e331b753.js.map": "/gaia_visualizer/static/js/main.e331b753.js.map",
-    "879.ffa93a33.chunk.js.map": "/gaia_visualizer/static/js/879.ffa93a33.chunk.js.map",
-    "453.75b91a63.chunk.js.map": "/gaia_visualizer/static/js/453.75b91a63.chunk.js.map"
+    "main.css": "/gaia_dashboard/static/css/main.952951c4.css",
+    "main.js": "/gaia_dashboard/static/js/main.f89508ff.js",
+    "static/js/879.b9693591.chunk.js": "/gaia_dashboard/static/js/879.b9693591.chunk.js",
+    "static/js/453.12e27e3c.chunk.js": "/gaia_dashboard/static/js/453.12e27e3c.chunk.js",
+    "index.html": "/gaia_dashboard/index.html",
+    "main.952951c4.css.map": "/gaia_dashboard/static/css/main.952951c4.css.map",
+    "main.f89508ff.js.map": "/gaia_dashboard/static/js/main.f89508ff.js.map",
+    "879.b9693591.chunk.js.map": "/gaia_dashboard/static/js/879.b9693591.chunk.js.map",
+    "453.12e27e3c.chunk.js.map": "/gaia_dashboard/static/js/453.12e27e3c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.952951c4.css",
-    "static/js/main.e331b753.js"
+    "static/js/main.f89508ff.js"
   ]
 }
