@@ -44,3 +44,4 @@ src/data/unused/hgdp_tgp_sgdp_high_cov_ancients_chr18_p.dated.trees
 package-lock.json
 src/data/georef-arg.csv
 src/data/georef-arg.json
+src/data/*

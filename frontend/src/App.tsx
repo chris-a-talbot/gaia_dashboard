@@ -20,6 +20,7 @@ const App = () => {
     const [showRegionColors, setShowRegionColors] = useState(false);
     const [showCountryBorders, setShowCountryBorders] = useState(false);
     const [showIndividuals, setShowIndividuals] = useState(false);
+    const [showAggregatePoints, setShowAggregatePoints] = useState(false);
 
     // Data
     const [hexagons, setHexagons] = useState<Hexagon[]>([]);
@@ -51,6 +52,12 @@ const App = () => {
         fetchIndividuals();
         fetchHexagons();
     }, []);
+
+    useEffect(() => {
+        if (showAggregatePoints && showIndividuals) {
+            setShowIndividuals(false);
+        }
+    }, [showAggregatePoints]);
 
     // Manages sidebar resizing interaction
     const startResizing = useCallback((side: 'right') => {
@@ -90,6 +97,7 @@ const App = () => {
                     showRegionColors={showRegionColors}
                     showCountryBorders={showCountryBorders}
                     showIndividuals={showIndividuals}
+                    showAggregatePoints={showAggregatePoints}
                     individuals={individuals}
                     hexagons={hexagons}
                 />
@@ -170,7 +178,27 @@ const App = () => {
                                 <input
                                     type="checkbox"
                                     checked={showIndividuals}
-                                    onChange={(e) => setShowIndividuals(e.target.checked)}
+                                    onChange={(e) => {
+                                        setShowIndividuals(e.target.checked);
+                                        if (e.target.checked) {
+                                            setShowAggregatePoints(false);
+                                        }
+                                    }}
+                                />
+                                <span className="toggle-slider"></span>
+                            </label>
+
+                            <label className="toggle-label">
+                                Show Aggregate Points
+                                <input
+                                    type="checkbox"
+                                    checked={showAggregatePoints}
+                                    onChange={(e) => {
+                                        setShowAggregatePoints(e.target.checked);
+                                        if (e.target.checked) {
+                                            setShowIndividuals(false);
+                                        }
+                                    }}
                                 />
                                 <span className="toggle-slider"></span>
                             </label>
