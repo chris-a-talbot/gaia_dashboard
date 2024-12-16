@@ -1,4 +1,4 @@
-FROM rust:1.75 as builder
+FROM rust:1.81 as builder
 
 # Install PostGIS dependencies
 RUN apt-get update && apt-get install -y \
@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /usr/src/app
 COPY . .
 
-# Rename cargo.toml to Cargo.toml
-RUN mv backend/cargo.toml backend/Cargo.toml
+# Rename cargo.toml to Cargo.toml if needed
+RUN if [ -f backend/cargo.toml ]; then mv backend/cargo.toml backend/Cargo.toml; fi
 
 # Enable offline mode for sqlx
 ENV SQLX_OFFLINE=true
