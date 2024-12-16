@@ -50,8 +50,8 @@ struct Hexagon {
     state_id: i32,
     geom: JsonValue, // Will contain GeoJSON
     continent_id: String,
-    center_lon: f64,
-    center_lat: f64,
+    center_lon: Option<f64>,
+    center_lat: Option<f64>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -127,7 +127,9 @@ async fn get_all_hexagons(
         SELECT
             state_id,
             ST_AsGeoJSON(geom)::jsonb as "geom!: JsonValue",
-            continent_id
+            continent_id,
+            center_lon,
+            center_lat
         FROM hexagons
         "#
     )
