@@ -8,7 +8,7 @@
     "@deck.gl/geo-layers": "^9.0.35",
     "@deck.gl/layers": "^9.0.35",
     "@deck.gl/react": "^9.0.35",
-    "@luma.gl/constants": "^9.0.27",
+    "@luma.gl/constants": "^9.0.28",
     "@ngageoint/geopackage": "^4.2.6",
     "@shadcn/ui": "^0.0.4",
     "@testing-library/jest-dom": "^5.17.0",

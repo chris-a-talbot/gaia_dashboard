@@ -5,6 +5,7 @@ import {GeoJsonLayer, LineLayer, ScatterplotLayer} from "@deck.gl/layers";
 import { COORDINATE_SYSTEM, MapView, MapViewState } from "@deck.gl/core";
 import { Feature, FeatureCollection, Geometry } from "geojson";
 import {
+    GeoArgPath,
     Hexagon,
     HexagonHoverInfo,
     HexagonHoverProperties,
@@ -16,6 +17,8 @@ import {
 import { COLORS, MAP, MAPBOX } from "../utils/constants";
 import { booleanPointInPolygon, point } from '@turf/turf';
 import { Polygon, MultiPolygon } from 'geojson';
+import {getOriginPaths} from "../utils/api";
+import MigrationHistoryLayer from "./MigrationHistoryLayer";
 
 // MapBox configuration
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -47,6 +50,27 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
         x: number;
         y: number;
     } | null>(null);
+
+    const [selectedStateId, setSelectedStateId] = useState<number | null>(null);
+    const [migrationPaths, setMigrationPaths] = useState<GeoArgPath[]>([]);
+
+    useEffect(() => {
+        const fetchMigrationPaths = async () => {
+            if (selectedStateId !== null) {
+                try {
+                    const paths = await getOriginPaths(selectedStateId);
+                    setMigrationPaths(paths);
+                } catch (error) {
+                    console.error('Error fetching migration paths:', error);
+                    setMigrationPaths([]);
+                }
+            } else {
+                setMigrationPaths([]);
+            }
+        };
+
+        fetchMigrationPaths();
+    }, [selectedStateId]);
 
     const aggregatePoints = useMemo(() => {
         if (!showAggregatePoints || !hexagons || !individuals) return [];
@@ -108,6 +132,12 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
         console.log('Final aggregate points with coordinates:', result);
         return result;
     }, [hexagons, individuals, showAggregatePoints]);
+
+    useEffect(() => {
+        if (!showAggregatePoints) {
+            setSelectedStateId(null);
+        }
+    }, [showAggregatePoints]);
 
     // Dynamic map style based on border visibility
     const currentMapStyle = useMemo(() =>
@@ -211,24 +241,38 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
         }
 
         if (showAggregatePoints && aggregatePoints.length > 0) {
+            const maxPointCount = Math.max(...aggregatePoints.map(p => p.count));
+            console.log('Max count:', maxPointCount);
+
             baseLayers.push(
                 new ScatterplotLayer({
                     id: 'aggregate-points-layer',
                     data: aggregatePoints,
                     pickable: true,
-                    opacity: 0.8,
-                    stroked: true,
-                    filled: true,
-                    radiusScale: 8,
-                    radiusMinPixels: 6,
-                    radiusMaxPixels: 25,
-                    lineWidthMinPixels: 1,
-                    getPosition: d => {
-                        return [d.center_lon, d.center_lat];
+                    onClick: ({object}) => {
+                        if (object) {
+                            setSelectedStateId(prevId =>
+                                prevId === object.state_id ? null : object.state_id
+                            );
+                        }
                     },
-                    getRadius: d => Math.sqrt(d.count) * 4,
+                    opacity: 1.0,
+                    stroked: false,
+                    filled: true,
+                    radiusUnits: 'pixels',
+                    radiusScale: 1,
+                    radiusMinPixels: 6,
+                    radiusMaxPixels: 50,
+                    getPosition: d => [d.center_lon, d.center_lat],  // Updated to match data structure
+                    getRadius: d => {
+                        const normalizedRadius = Math.sqrt(d.count / maxPointCount);  // Using count instead of pointCount
+                        return normalizedRadius * 25 + 6;
+                    },
                     getFillColor: COLORS.points.aggregate,
                     getLineColor: COLORS.points.outline,
+                    updateTriggers: {
+                        getRadius: [aggregatePoints, maxPointCount]
+                    },
                     onHover: info => {
                         const {object, x, y} = info;
                         if (object) {
@@ -245,8 +289,18 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
             );
         }
 
+        if (migrationPaths.length > 0 && selectedStateId !== null) {
+            baseLayers.push(
+                new MigrationHistoryLayer({
+                    id: 'migration-history',
+                    paths: migrationPaths,
+                    hexagons: hexagons
+                })
+            );
+        }
+
         return baseLayers;
-    }, [hexagonGeoJSON, showCells, showRegionColors, showIndividuals, showAggregatePoints, individuals, aggregatePoints]);
+    }, [hexagonGeoJSON, showCells, showRegionColors, showIndividuals, showAggregatePoints, individuals, aggregatePoints, migrationPaths, selectedStateId]);
 
     // Render hover tooltip
     const renderTooltip = () => {
