@@ -304,6 +304,28 @@ const EurasiaMap: React.FC<EurasiaMapProps> = ({
 
     // Render hover tooltip
     const renderTooltip = () => {
+        if (hexagonHoverInfo) {
+            const { object, x, y } = hexagonHoverInfo;
+            const properties = object.properties as HexagonHoverProperties;
+
+            return (
+                <div className="tooltip" style={{
+                    position: 'absolute',
+                    left: x,
+                    top: y,
+                    padding: '8px',
+                    background: 'white',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                    borderRadius: '4px',
+                    zIndex: 9
+                }}>
+                    <div><strong>State ID:</strong> {properties.state_id}</div>
+                    <div><strong>Continent:</strong> {properties.continent_id}</div>
+                    <div><strong>Coordinates:</strong> ({properties.center_lon.toFixed(2)}, {properties.center_lat.toFixed(2)})</div>
+                </div>
+            );
+        }
+
         if (aggregateHoverInfo) {
             const { count, x, y } = aggregateHoverInfo;
             return (

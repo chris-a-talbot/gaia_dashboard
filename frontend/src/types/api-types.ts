@@ -100,3 +100,12 @@ export interface PointHoverInfo {
     x: number;
     y: number;
 }
+
+export interface MigrationHoverInfo {
+    edgeId: number;
+    sourceStateId: number;
+    targetStateId: number;
+    time: number;
+    x: number;
+    y: number;
+}

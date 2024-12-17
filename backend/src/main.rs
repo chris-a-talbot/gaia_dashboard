@@ -202,30 +202,42 @@ async fn get_origin_paths(
     Path(state_id): Path<i32>,
     State(state): State<Arc<AppState>>,
 ) -> Json<Vec<GeoArgPath>> {
-    // This query finds all edge_ids where the earliest entry matches our state_id,
-    // then returns all entries for those edge_ids
     let paths = sqlx::query_as!(
         GeoArg,
         r#"
-        WITH earliest_entries AS (
-            SELECT DISTINCT ON (edge_id)
-                edge_id,
-                state_id,
-                time
-            FROM geo_arg
-            ORDER BY edge_id, time ASC
+        WITH RECURSIVE
+        -- First get all nodes associated with individuals in the given state
+        state_nodes AS (
+            SELECT DISTINCT unnest(nodes) as node_id
+            FROM individuals i
+            WHERE EXISTS (
+                SELECT 1 FROM hexagons h
+                WHERE h.state_id = $1
+            )
         ),
-        matching_edges AS (
-            SELECT edge_id
-            FROM earliest_entries
-            WHERE state_id = $1
+        -- Then recursively find all edges connecting to ancestral nodes
+        edge_hierarchy AS (
+            -- Base case: edges directly connected to nodes from individuals in the state
+            SELECT DISTINCT e.id as edge_id, e.parent, e.child
+            FROM edges e
+            INNER JOIN state_nodes sn
+            ON e.child = sn.node_id
+
+            UNION
+
+            -- Recursive case: find edges connected to parent nodes
+            SELECT e.id as edge_id, e.parent, e.child
+            FROM edges e
+            INNER JOIN edge_hierarchy eh
+            ON e.child = eh.parent
         )
+        -- Finally, get all geo_arg entries for these edges
         SELECT
             g.edge_id,
             g.state_id,
             g.time
         FROM geo_arg g
-        INNER JOIN matching_edges m ON g.edge_id = m.edge_id
+        INNER JOIN edge_hierarchy eh ON g.edge_id = eh.edge_id
         ORDER BY g.edge_id, g.time
         "#,
         state_id
@@ -242,7 +254,6 @@ async fn get_origin_paths(
     for entry in paths {
         if let Some(edge_id) = current_edge_id {
             if edge_id != entry.edge_id {
-                // Save the current group and start a new one
                 grouped_paths.push(GeoArgPath {
                     edge_id,
                     entries: std::mem::take(&mut current_entries),
@@ -255,7 +266,6 @@ async fn get_origin_paths(
         current_entries.push(entry);
     }
 
-    // Don't forget to add the last group
     if let Some(edge_id) = current_edge_id {
         grouped_paths.push(GeoArgPath {
             edge_id,

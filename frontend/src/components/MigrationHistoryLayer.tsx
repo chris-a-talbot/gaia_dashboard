@@ -13,12 +13,10 @@ interface PathSegment {
     sourceStateId: number;
     targetStateId: number;
     time: number;
-    sourceLon: number;
-    sourceLat: number;
-    targetLon: number;
-    targetLat: number;
-    angle: number;
+    sourcePosition: [number, number];
+    targetPosition: [number, number];
     midpoint: [number, number];
+    angle: number;
 }
 
 interface HexagonCoords {
@@ -49,20 +47,20 @@ export default class MigrationHistoryLayer extends CompositeLayer<MigrationHisto
         return { angle: (angle * 180) / Math.PI, midpoint };
     }
 
+    hasTimeDuplicates(path: GeoArgPath): boolean {
+        const timeFrequency = new Map<number, number>();
+        path.entries.forEach(entry => {
+            const count = timeFrequency.get(entry.time) || 0;
+            timeFrequency.set(entry.time, count + 1);
+        });
+        return Array.from(timeFrequency.values()).some(count => count > 1);
+    }
+
     processPathData(): ProcessedPathData {
         const { paths, hexagons } = this.props;
         if (!paths || !hexagons) return { segments: [], maxTime: 0 };
 
-        // Debug output for the first path
-        if (paths.length > 0) {
-            console.log('Sample GeoArgPath:', {
-                pathId: paths[0].edge_id,
-                entries: paths[0].entries.map(entry => ({
-                    stateId: entry.state_id,
-                    time: entry.time
-                }))
-            });
-        }
+        const validPaths = paths.filter(path => !this.hasTimeDuplicates(path));
 
         const hexagonMap = new Map<number, HexagonCoords>(
             hexagons.map(h => [
@@ -71,14 +69,15 @@ export default class MigrationHistoryLayer extends CompositeLayer<MigrationHisto
             ])
         );
 
-        const segments: PathSegment[] = [];
-        const maxTime = Math.max(...paths.flatMap(p => p.entries.map(e => e.time)));
-        console.log('Max time:', maxTime);
+        // Map to store the oldest transition between each state pair
+        const oldestTransitions = new Map<string, PathSegment>();
 
-        paths.forEach((path: GeoArgPath) => {
-            for (let i = 0; i < path.entries.length - 1; i++) {
-                const current = path.entries[i];
-                const next = path.entries[i + 1];
+        validPaths.forEach((path: GeoArgPath) => {
+            const sortedEntries = [...path.entries].sort((a, b) => a.time - b.time);
+
+            for (let i = 0; i < sortedEntries.length - 1; i++) {
+                const current = sortedEntries[i];
+                const next = sortedEntries[i + 1];
 
                 const sourceCoords = hexagonMap.get(current.state_id);
                 const targetCoords = hexagonMap.get(next.state_id);
@@ -91,20 +90,31 @@ export default class MigrationHistoryLayer extends CompositeLayer<MigrationHisto
                         targetCoords.lat
                     );
 
-                    segments.push({
+                    // Create unique key for this state transition (order-independent)
+                    const stateIds = [current.state_id, next.state_id].sort();
+                    const transitionKey = stateIds.join('-');
+
+                    const newSegment: PathSegment = {
                         sourceStateId: current.state_id,
                         targetStateId: next.state_id,
                         time: current.time,
-                        sourceLon: sourceCoords.lon,
-                        sourceLat: sourceCoords.lat,
-                        targetLon: targetCoords.lon,
-                        targetLat: targetCoords.lat,
-                        angle,
-                        midpoint
-                    });
+                        sourcePosition: [sourceCoords.lon, sourceCoords.lat],
+                        targetPosition: [targetCoords.lon, targetCoords.lat],
+                        midpoint,
+                        angle
+                    };
+
+                    // Only keep this transition if it's older than the existing one
+                    const existingTransition = oldestTransitions.get(transitionKey);
+                    if (!existingTransition || current.time < existingTransition.time) {
+                        oldestTransitions.set(transitionKey, newSegment);
+                    }
                 }
             }
         });
+
+        const segments = Array.from(oldestTransitions.values());
+        const maxTime = Math.max(...segments.map(s => s.time));
 
         return { segments, maxTime };
     }
@@ -117,25 +127,16 @@ export default class MigrationHistoryLayer extends CompositeLayer<MigrationHisto
             new LineLayer({
                 id: 'migration-paths',
                 data: segments,
-                getSourcePosition: d => [d.sourceLon, d.sourceLat],
-                getTargetPosition: d => [d.targetLon, d.targetLat],
-                getColor: (d: PathSegment) => {
-                    const intensity = Math.max(0, Math.min(1, 1 - (d.time / maxTime)));
-                    const color = new Uint8Array([
-                        255,                            // R
-                        Math.floor(intensity * 50),     // G
-                        Math.floor(intensity * 50),     // B
-                        Math.floor(255 * (0.3 + intensity * 0.7)) // A
-                    ]);
-
-                    console.log('Line segment color:', {
-                        time: d.time,
-                        maxTime,
-                        intensity,
-                        color: Array.from(color)
-                    });
-
-                    return color;
+                getSourcePosition: d => d.sourcePosition,
+                getTargetPosition: d => d.targetPosition,
+                getColor: d => {
+                    const intensity = 1 - Math.max(0, Math.min(1, d.time / maxTime));
+                    return [
+                        255,
+                        Math.floor(intensity * 180),
+                        Math.floor(intensity * 180),
+                        255
+                    ];
                 },
                 getWidth: 2,
                 widthMinPixels: 2,
