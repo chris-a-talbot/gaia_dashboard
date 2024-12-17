@@ -198,6 +198,14 @@ async fn health_check() -> Json<serde_json::Value> {
         "timestamp": chrono::Utc::now().to_rfc3339()
     }))
 }
+// First, add these indexes to your database schema:
+/*
+CREATE INDEX IF NOT EXISTS idx_edges_child ON edges(child);
+CREATE INDEX IF NOT EXISTS idx_edges_parent ON edges(parent);
+CREATE INDEX IF NOT EXISTS idx_geo_arg_edge_id ON geo_arg(edge_id);
+CREATE INDEX IF NOT EXISTS idx_individuals_nodes ON individuals USING GIN(nodes);
+*/
+
 async fn get_origin_paths(
     Path(state_id): Path<i32>,
     State(state): State<Arc<AppState>>,
@@ -208,8 +216,9 @@ async fn get_origin_paths(
         WITH RECURSIVE
         -- First get all nodes associated with individuals in the given state
         state_nodes AS (
-            SELECT DISTINCT unnest(nodes) as node_id
+            SELECT DISTINCT n.id as node_id
             FROM individuals i
+            CROSS JOIN UNNEST(i.nodes) as n(id)
             WHERE EXISTS (
                 SELECT 1 FROM hexagons h
                 WHERE h.state_id = $1
@@ -218,7 +227,7 @@ async fn get_origin_paths(
         -- Then recursively find all edges connecting to ancestral nodes
         edge_hierarchy AS (
             -- Base case: edges directly connected to nodes from individuals in the state
-            SELECT DISTINCT e.id as edge_id, e.parent, e.child
+            SELECT DISTINCT e.id as edge_id, e.parent, e.child, 1 as depth
             FROM edges e
             INNER JOIN state_nodes sn
             ON e.child = sn.node_id
@@ -226,10 +235,11 @@ async fn get_origin_paths(
             UNION
 
             -- Recursive case: find edges connected to parent nodes
-            SELECT e.id as edge_id, e.parent, e.child
+            SELECT e.id as edge_id, e.parent, e.child, eh.depth + 1
             FROM edges e
             INNER JOIN edge_hierarchy eh
             ON e.child = eh.parent
+            WHERE eh.depth < 100  -- Limit recursion depth
         )
         -- Finally, get all geo_arg entries for these edges
         SELECT
@@ -237,7 +247,10 @@ async fn get_origin_paths(
             g.state_id,
             g.time
         FROM geo_arg g
-        INNER JOIN edge_hierarchy eh ON g.edge_id = eh.edge_id
+        INNER JOIN (
+            SELECT DISTINCT edge_id
+            FROM edge_hierarchy
+        ) eh ON g.edge_id = eh.edge_id
         ORDER BY g.edge_id, g.time
         "#,
         state_id
@@ -246,7 +259,6 @@ async fn get_origin_paths(
         .await
         .unwrap_or_default();
 
-    // Group the results by edge_id
     let mut grouped_paths: Vec<GeoArgPath> = Vec::new();
     let mut current_edge_id: Option<i32> = None;
     let mut current_entries: Vec<GeoArg> = Vec::new();
