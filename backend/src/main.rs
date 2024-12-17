@@ -213,35 +213,20 @@ async fn get_origin_paths(
     let paths = sqlx::query_as!(
         GeoArg,
         r#"
-        WITH RECURSIVE
-        -- First get all nodes associated with individuals in the given state
-        state_nodes AS (
-            SELECT DISTINCT n.id as node_id
-            FROM individuals i
-            CROSS JOIN UNNEST(i.nodes) as n(id)
-            WHERE EXISTS (
-                SELECT 1 FROM hexagons h
-                WHERE h.state_id = $1
-            )
-        ),
-        -- Then recursively find all edges connecting to ancestral nodes
-        edge_hierarchy AS (
-            -- Base case: edges directly connected to nodes from individuals in the state
-            SELECT DISTINCT e.id as edge_id, e.parent, e.child, 1 as depth
-            FROM edges e
-            INNER JOIN state_nodes sn
-            ON e.child = sn.node_id
-
-            UNION
-
-            -- Recursive case: find edges connected to parent nodes
-            SELECT e.id as edge_id, e.parent, e.child, eh.depth + 1
-            FROM edges e
-            INNER JOIN edge_hierarchy eh
-            ON e.child = eh.parent
-            WHERE eh.depth < 100  -- Limit recursion depth
+        WITH state_transitions AS (
+            -- For each edge, identify the state transitions it represents
+            -- and find the maximum time for each from->to state pattern
+            SELECT DISTINCT ON (from_state, to_state)
+                g1.edge_id,
+                g1.state_id as from_state,
+                g2.state_id as to_state,
+                g1.time
+            FROM geo_arg g1
+            INNER JOIN geo_arg g2 ON g1.edge_id = g2.edge_id
+            WHERE g1.time < g2.time  -- Ensure proper time ordering within edge
+            ORDER BY from_state, to_state, g1.time DESC  -- Get most ancient transition for each pattern
         )
-        -- Finally, get all geo_arg entries for these edges
+        -- Get all geo_arg entries for the selected edges
         SELECT
             g.edge_id,
             g.state_id,
@@ -249,8 +234,9 @@ async fn get_origin_paths(
         FROM geo_arg g
         INNER JOIN (
             SELECT DISTINCT edge_id
-            FROM edge_hierarchy
-        ) eh ON g.edge_id = eh.edge_id
+            FROM state_transitions
+            WHERE from_state = $1 OR to_state = $1
+        ) selected_edges ON g.edge_id = selected_edges.edge_id
         ORDER BY g.edge_id, g.time
         "#,
         state_id
