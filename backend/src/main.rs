@@ -288,6 +288,98 @@ async fn get_average_flux(
     Json(average_flux)
 }
 
+// Add this new handler function to your existing code
+async fn get_individual_origin_paths(
+    Path(individual_id): Path<i32>,
+    State(state): State<Arc<AppState>>,
+) -> Json<Vec<GeoArgPath>> {
+    // First, recursively get all edges leading to the individual's nodes
+    let edges = sqlx::query!(
+        r#"
+        WITH RECURSIVE node_tree AS (
+            -- Base case: get the individual's direct nodes
+            SELECT n.id AS node_id
+            FROM nodes n
+            WHERE n.id = ANY(
+                SELECT UNNEST(nodes)
+                FROM individuals
+                WHERE id = $1
+            )
+
+            UNION
+
+            -- Recursive case: get parent nodes
+            SELECT e.parent AS node_id
+            FROM edges e
+            INNER JOIN node_tree nt ON e.child = nt.node_id
+        )
+        SELECT DISTINCT e.id as edge_id
+        FROM edges e
+        WHERE e.child IN (SELECT node_id FROM node_tree)
+        OR e.parent IN (SELECT node_id FROM node_tree)
+        "#,
+        individual_id
+    )
+        .fetch_all(&state.pool)
+        .await
+        .unwrap_or_default();
+
+    let edge_ids: Vec<i32> = edges.iter().map(|e| e.edge_id).collect();
+
+    // If no edges found, return empty result
+    if edge_ids.is_empty() {
+        return Json(Vec::new());
+    }
+
+    // Get all geo_arg entries for these edges
+    let paths = sqlx::query_as!(
+        GeoArg,
+        r#"
+        SELECT
+            edge_id,
+            state_id,
+            time
+        FROM geo_arg
+        WHERE edge_id = ANY($1)
+        ORDER BY edge_id, time
+        "#,
+        &edge_ids
+    )
+        .fetch_all(&state.pool)
+        .await
+        .unwrap_or_default();
+
+    // Group the paths by edge_id
+    let mut grouped_paths: Vec<GeoArgPath> = Vec::new();
+    let mut current_edge_id: Option<i32> = None;
+    let mut current_entries: Vec<GeoArg> = Vec::new();
+
+    for entry in paths {
+        if let Some(edge_id) = current_edge_id {
+            if edge_id != entry.edge_id {
+                grouped_paths.push(GeoArgPath {
+                    edge_id,
+                    entries: std::mem::take(&mut current_entries),
+                });
+                current_edge_id = Some(entry.edge_id);
+            }
+        } else {
+            current_edge_id = Some(entry.edge_id);
+        }
+        current_entries.push(entry);
+    }
+
+    // Don't forget the last group
+    if let Some(edge_id) = current_edge_id {
+        grouped_paths.push(GeoArgPath {
+            edge_id,
+            entries: current_entries,
+        });
+    }
+
+    Json(grouped_paths)
+}
+
 #[tokio::main]
 async fn main() {
     // Initialize logging
@@ -319,6 +411,7 @@ async fn main() {
         .route("/api/geo-arg", get(get_all_geo_arg))
         .route("/api/origin-paths/:state_id", get(get_origin_paths))
         .route("/health", get(health_check))
+        .route("/api/individual-origin-paths/:individual_id", get(get_individual_origin_paths))
         .layer(CorsLayer::permissive())
         .with_state(state);
 

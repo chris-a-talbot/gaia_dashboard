@@ -62,3 +62,8 @@ export const healthCheck = async (): Promise<{ status: string; timestamp: string
     const response = await api.get<{ status: string; timestamp: string }>('/health');
     return response.data;
 };
+
+export const getIndividualPaths = async (individualId: number): Promise<GeoArgPath[]> => {
+    const response = await api.get<GeoArgPath[]>(`/individual-paths/${individualId}`);
+    return response.data;
+};

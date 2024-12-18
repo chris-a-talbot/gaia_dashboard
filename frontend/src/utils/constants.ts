@@ -21,7 +21,8 @@ export const COLORS = {
         single: [135, 206, 235] as [number, number, number],   // Sky blue
         cluster: [255, 185, 15] as [number, number, number],   // Golden
         outline: [30, 41, 59] as [number, number, number],     // Dark slate
-        aggregate: [220, 220, 220] as [number, number, number] // Light gray
+        aggregate: [220, 220, 220] as [number, number, number], // Light gray
+        selected: [255, 140, 0] as [number, number, number]    // Orange for selected state
     },
 
     // Flux visualization - much higher contrast

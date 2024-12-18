@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        WITH RECURSIVE node_tree AS (\n            -- Base case: get the individual's direct nodes\n            SELECT n.id AS node_id\n            FROM nodes n\n            WHERE n.id = ANY(\n                SELECT UNNEST(nodes)\n                FROM individuals\n                WHERE id = $1\n            )\n\n            UNION\n\n            -- Recursive case: get parent nodes\n            SELECT e.parent AS node_id\n            FROM edges e\n            INNER JOIN node_tree nt ON e.child = nt.node_id\n        )\n        SELECT DISTINCT e.id as edge_id\n        FROM edges e\n        WHERE e.child IN (SELECT node_id FROM node_tree)\n        OR e.parent IN (SELECT node_id FROM node_tree)\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "edge_id",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "8a044134617778d5f3f64ab0fa08bd3dc62301fac32c61933d02b3834a9908a7"
+}
